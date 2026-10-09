@@ -8,73 +8,48 @@ sections:
   - block: hero
     content:
       title: |
-        Wowchemy
-        Research Group
-      image:
-        filename: welcome.jpg
+        <span style="color: #ffffff; white-space: nowrap;">構造力学研究室</span>
       text: |
-        <br>
-        
-        The **Wowchemy Research Group** has been a center of excellence for Artificial Intelligence research, teaching, and practice since its founding in 2016.
-  
-  - block: collection
-    content:
-      title: Latest News
-      subtitle:
-      text:
-      count: 5
-      filters:
-        author: ''
-        category: ''
-        exclude_featured: false
-        publication_type: ''
-        tag: ''
-      offset: 0
-      order: desc
-      page_type: post
-    design:
-      view: card
-      columns: '1'
-  
-  - block: markdown
-    content:
-      title:
-      subtitle: ''
-      text:
-    design:
-      columns: '1'
-      background:
-        image: 
-          filename: coders.jpg
-          filters:
-            brightness: 1
-          parallax: false
-          position: center
-          size: cover
-          text_color_light: true
-      spacing:
-        padding: ['20px', '0', '20px', '0']
-      css_class: fullscreen
+        <div style="color: #94a3b8; max-width: 750px; margin: 0 auto; line-height: 1.8; font-size: 1.1rem;">
+          <strong style="color: #ffffff;">構造解析とロボット技術で機械システムを安全にする</strong>
+        </div>
 
+        <!-- 💡 HTMLによるカスタムボタン -->
+        <div style="margin-top: 20px;">
+          <a href="/about/" style="display: inline-block; padding: 6px 16px; font-size: 0.85rem; color: #9797a5; border: 0px solid #0a0a0a; border-radius: 4px; text-decoration: none; font-weight: bold; background-color: rgba(7, 11, 14, 0.54); transition: all 0.3s;">
+            About us >
+          </a>
+        </div>
+
+    design:
+      is_dark: true
+      background:
+        image:
+          filename: uele.jpg
+          filters:
+            brightness: 0.25 # 数値を小さくして背景写真をぐっと暗く落とします
+      spacing:
+        padding: ['200px', '0', '200px', '0'] # 上下余白を広く取ってシックに見せる
+  
   - block: collection
+    id: news          # メニュー等で参照用ID
     content:
-      title: Latest Preprints
-      text: ""
-      count: 5
+      title: '<span style="color: #ffffff;">News</span>'
       filters:
         folders:
-          - publication
-        publication_type: 'article'
+          - news      # お知らせ記事が入っているフォルダ名（content/news/）
+      count: 5        # 💡 ここで Home 画面に表示する最新件数を 5 件に制限します[cite: 1]
+      
+      # 「過去の記事一覧を見る」ボタンを設置する場合（任意）
+      archive:
+        enable: true
+        text: '過去の一覧を見る'
+        link: '/news/' # 全件一覧ページへのリンク
     design:
-      view: citation
-      columns: '1'
+      view: compact   # リスト表示（日付とタイトルのみのスッキリした配置）[cite: 1, 2]
+      is_dark: true
+      background:
+        color: '#121217d9'
 
-  - block: markdown
-    content:
-      title:
-      subtitle:
-      text: |
-        {{% cta cta_link="./people/" cta_text="Meet the team →" %}}
-    design:
-      columns: '1'
+
 ---

@@ -1,0 +1,18 @@
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // ナビゲーションのロゴ部分を見つける
+  var brand = document.querySelector('.navbar-brand');
+  
+  // ロゴ部分が存在したら、中身を2段表示のHTMLに書き換える
+  if (brand) {
+    brand.innerHTML = `
+      <span style="font-size: 0.7rem; display: block; color: #94a3b8; font-weight: normal; line-height: 1.3; letter-spacing: 0.05em;">
+        日本大学 理工学部 精密機械工学科
+      </span>
+      <span style="font-size: 1.15rem; font-weight: bold; color: #ffffff; letter-spacing: 0.05em;">
+        構造力学研究室
+      </span>
+    `;
+  }
+});
+</script>
