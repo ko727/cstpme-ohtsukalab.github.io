@@ -20,7 +20,7 @@ share: false
   
   <div style="flex: 0 0 200px; text-align: center;">
     <div style="width: 100%; max-width: 200px; aspect-ratio: 1/1; background-color: #0f172a; border-radius: 8px; border: 2px solid #38bdf8; display: flex; align-items: center; justify-content: center; overflow: hidden; margin: 0 auto;">
-      <img src="/media/ohtsuka-sensei.jpg" alt="大塚賢哉" style="width: 100%; height: 100%; object-fit: cover;">
+      <img src="https://ko727.github.io/cstpme-ohtsukalab.github.io/media/ohtsuka-sensei.jpg" alt="大塚賢哉" style="width: 100%; height: 100%; object-fit: cover;">
       <!-- <span style="color: #64748b; font-size: 0.9rem;">No Image</span> -->
     </div>
   </div>
@@ -56,7 +56,7 @@ share: false
   
   <div style="flex: 0 0 200px; text-align: center;">
     <div style="width: 100%; max-width: 200px; aspect-ratio: 1/1; background-color: #0f172a; border-radius: 8px; border: 2px solid #38bdf8; display: flex; align-items: center; justify-content: center; overflow: hidden; margin: 0 auto;">
-      <img src="/media/aoki-sensei.jpg" alt="青木義男" style="width: 100%; height: 100%; object-fit: cover;">
+      <img src="https://ko727.github.io/cstpme-ohtsukalab.github.io/media/aoki-sensei.jpg" alt="青木義男" style="width: 100%; height: 100%; object-fit: cover;">
       <!-- <span style="color: #64748b; font-size: 0.9rem;">No Image</span> -->
     </div>
   </div>
