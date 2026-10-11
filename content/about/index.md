@@ -42,14 +42,14 @@ share: false
 <div style="position: relative; width: 100%; aspect-ratio: 16 / 9; max-height: 600px; overflow: hidden;">
   
   <!-- 画像の指定（枚数に合わせて増減可能です） -->
-  <img class="about-slide" src="/media/about_sports1.jpg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; object-position: top; opacity: 1; transition: opacity 1.5s ease-in-out;">
-  <img class="about-slide" src="/media/about_sports2.jpg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; object-position: top; opacity: 0; transition: opacity 1.5s ease-in-out;">
-  <img class="about-slide" src="/media/about_frp1.jpg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; object-position: top; opacity: 0; transition: opacity 1.5s ease-in-out;">
-  <img class="about-slide" src="/media/about_frp2.jpg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; object-position: top; opacity: 0; transition: opacity 1.5s ease-in-out;">
-  <img class="about-slide" src="/media/about_wire1.jpg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; object-position: top; opacity: 0; transition: opacity 1.5s ease-in-out;">
-  <img class="about-slide" src="/media/about_wire2.jpg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; object-position: top; opacity: 0; transition: opacity 1.5s ease-in-out;">
-  <img class="about-slide" src="/media/about_uele1.jpg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; object-position: top; opacity: 0; transition: opacity 1.5s ease-in-out;">
-  <img class="about-slide" src="/media/about_uele2.jpg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; object-position: top; opacity: 0; transition: opacity 1.5s ease-in-out;">
+  <img class="about-slide" src="about_sports1.jpg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; object-position: top; opacity: 1; transition: opacity 1.5s ease-in-out;">
+  <img class="about-slide" src="about_sports2.jpg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; object-position: top; opacity: 0; transition: opacity 1.5s ease-in-out;">
+  <img class="about-slide" src="about_frp1.jpg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; object-position: top; opacity: 0; transition: opacity 1.5s ease-in-out;">
+  <img class="about-slide" src="about_frp2.jpg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; object-position: top; opacity: 0; transition: opacity 1.5s ease-in-out;">
+  <img class="about-slide" src="about_wire1.jpg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; object-position: top; opacity: 0; transition: opacity 1.5s ease-in-out;">
+  <img class="about-slide" src="about_wire2.jpg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; object-position: top; opacity: 0; transition: opacity 1.5s ease-in-out;">
+  <img class="about-slide" src="about_uele1.jpg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; object-position: top; opacity: 0; transition: opacity 1.5s ease-in-out;">
+  <img class="about-slide" src="about_uele2.jpg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; object-position: top; opacity: 0; transition: opacity 1.5s ease-in-out;">
 
 </div>
 
