@@ -48,6 +48,10 @@ taxonomies:
   author: authors
 markup:
   _merge: deep
+
+  goldmark:
+    renderer:
+      unsafe: true  # ← HTMLタグの直接入力を許可する設定です
 related:
   threshold: 80
   includeNewer: true

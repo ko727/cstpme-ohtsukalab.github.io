@@ -1,0 +1,20 @@
+/* ---------------------------------------------------------
+   記事詳細ページ（Single Page）の横幅を1000pxに強制拡張
+--------------------------------------------------------- */
+/* html body を先頭に付けることで、テーマ標準のCSSよりも優先度を高くします */
+html body .page-body .article-container, 
+html body .page-body main .container, 
+html body .page-body .prose,
+html body .page-body .max-w-prose,
+html body .page-body article {
+  max-width: 1100px !important;
+  width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+/* 記事内の画像がはみ出さないように自動調整 */
+html body .page-body .prose img {
+  max-width: 100% !important;
+  height: auto !important;
+}
