@@ -15,7 +15,7 @@ sections:
         </div>
 
         <!-- 💡 HTMLによるカスタムボタン -->
-    <div style="margin-top: 20px;">
+        <div style="margin-top: 20px;">
           <a href="https://ko727.github.io/cstpme-ohtsukalab.github.io/about/" style="display: inline-block; padding: 6px 16px; font-size: 0.85rem; color: #9797a5; border: 0px solid #0a0a0a; border-radius: 4px; text-decoration: none; font-weight: bold; background-color: rgba(7, 11, 14, 0.54); transition: all 0.3s;">
             About us >
           </a>
