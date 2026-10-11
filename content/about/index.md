@@ -42,7 +42,7 @@ share: false
 <div style="position: relative; width: 100%; aspect-ratio: 16 / 9; max-height: 600px; overflow: hidden;">
   
   <!-- 画像の指定（枚数に合わせて増減可能です） -->C:\Users\Kenya\Desktop\program\cstpme-ohtsukalab.github.io\static
-  <img class="about-slide" src="/static/media/about_sports1.jpg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; object-position: top; opacity: 1; transition: opacity 1.5s ease-in-out;">
+  <img class="about-slide" src="/assets/media/about_sports1.jpg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; object-position: top; opacity: 1; transition: opacity 1.5s ease-in-out;">
   <img class="about-slide" src="/media/about_sports2.jpg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; object-position: top; opacity: 0; transition: opacity 1.5s ease-in-out;">
   <img class="about-slide" src="/media/about_frp1.jpg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; object-position: top; opacity: 0; transition: opacity 1.5s ease-in-out;">
   <img class="about-slide" src="/media/about_frp2.jpg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; object-position: top; opacity: 0; transition: opacity 1.5s ease-in-out;">
