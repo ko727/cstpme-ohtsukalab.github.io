@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <div style="display: flex; flex-direction: column; gap: 20px; margin-bottom: 40px;">
 
   <!-- プロジェクト1：スポーツ器具 -->
-  <a href="/research/#sports" style="text-decoration: none; display: block; background-color: #1e293b; padding: 20px; border-radius: 6px; border-left: 4px solid #3b82f6; transition: background-color 0.3s;" onmouseover="this.style.backgroundColor='#334155'" onmouseout="this.style.backgroundColor='#1e293b'">
+  <a href="https://ko727.github.io/cstpme-ohtsukalab.github.io/research/#sports" style="text-decoration: none; display: block; background-color: #1e293b; padding: 20px; border-radius: 6px; border-left: 4px solid #3b82f6; transition: background-color 0.3s;" onmouseover="this.style.backgroundColor='#334155'" onmouseout="this.style.backgroundColor='#1e293b'">
     <h4 style="color: #ffffff; margin-top: 0; font-size: 1.1rem; display: flex; align-items: center; justify-content: space-between;">
       01. スポーツ器具によるデータ収集・分析
       <span style="color: #3b82f6; font-size: 1.2rem;">→</span>
@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', function() {
   </a>
 
   <!-- プロジェクト2：強化繊維プラスチック -->
-  <a href="/research/#frp" style="text-decoration: none; display: block; background-color: #1e293b; padding: 20px; border-radius: 6px; border-left: 4px solid #3b82f6; transition: background-color 0.3s;" onmouseover="this.style.backgroundColor='#334155'" onmouseout="this.style.backgroundColor='#1e293b'">
+  <a href="https://ko727.github.io/cstpme-ohtsukalab.github.io/research/#frp" style="text-decoration: none; display: block; background-color: #1e293b; padding: 20px; border-radius: 6px; border-left: 4px solid #3b82f6; transition: background-color 0.3s;" onmouseover="this.style.backgroundColor='#334155'" onmouseout="this.style.backgroundColor='#1e293b'">
     <h4 style="color: #ffffff; margin-top: 0; font-size: 1.1rem; display: flex; align-items: center; justify-content: space-between;">
       02. 強化繊維プラスチックの力学特性
       <span style="color: #3b82f6; font-size: 1.2rem;">→</span>
@@ -96,7 +96,7 @@ document.addEventListener('DOMContentLoaded', function() {
   </a>
 
   <!-- プロジェクト3：ワイヤロープ -->
-  <a href="/research/#wire-rope" style="text-decoration: none; display: block; background-color: #1e293b; padding: 20px; border-radius: 6px; border-left: 4px solid #3b82f6; transition: background-color 0.3s;" onmouseover="this.style.backgroundColor='#334155'" onmouseout="this.style.backgroundColor='#1e293b'">
+  <a href="https://ko727.github.io/cstpme-ohtsukalab.github.io/research/#wire-rope" style="text-decoration: none; display: block; background-color: #1e293b; padding: 20px; border-radius: 6px; border-left: 4px solid #3b82f6; transition: background-color 0.3s;" onmouseover="this.style.backgroundColor='#334155'" onmouseout="this.style.backgroundColor='#1e293b'">
     <h4 style="color: #ffffff; margin-top: 0; font-size: 1.1rem; display: flex; align-items: center; justify-content: space-between;">
       03. ワイヤロープの非破壊検査
       <span style="color: #3b82f6; font-size: 1.2rem;">→</span>
@@ -105,7 +105,7 @@ document.addEventListener('DOMContentLoaded', function() {
   </a>
 
   <!-- プロジェクト4：宇宙エレベータ -->
-  <a href="/research/#space-elevator" style="text-decoration: none; display: block; background-color: #1e293b; padding: 20px; border-radius: 6px; border-left: 4px solid #3b82f6; transition: background-color 0.3s;" onmouseover="this.style.backgroundColor='#334155'" onmouseout="this.style.backgroundColor='#1e293b'">
+  <a href="https://ko727.github.io/cstpme-ohtsukalab.github.io/research/#space-elevator" style="text-decoration: none; display: block; background-color: #1e293b; padding: 20px; border-radius: 6px; border-left: 4px solid #3b82f6; transition: background-color 0.3s;" onmouseover="this.style.backgroundColor='#334155'" onmouseout="this.style.backgroundColor='#1e293b'">
     <h4 style="color: #ffffff; margin-top: 0; font-size: 1.1rem; display: flex; align-items: center; justify-content: space-between;">
       04. 宇宙エレベータのクライマロボット
       <span style="color: #3b82f6; font-size: 1.2rem;">→</span>
