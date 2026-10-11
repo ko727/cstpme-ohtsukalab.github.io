@@ -3,14 +3,11 @@ title: "About"
 type: page
 share: false
 ---
-
 <style>
 .article-container, main .container, .prose {
-  max-width: 1200px !important;
+  max-width: 1200px !important; /* お好みの横幅（例: 1000px, 1100px, 1200pxなど）に指定 */
 }
 </style>
-
-<!-- 💡 ページ全体の1200px幅コンテナ（一番最後で閉じます） -->
 <div style="max-width: 1200px; margin: 0 auto; color: #cbd5e1; line-height: 1.9;">
 
 <!-- 1. トップ見出しとリード文 -->
@@ -25,8 +22,9 @@ share: false
 <p style="font-size: 1.05rem;">
   構造力学研究室では，<strong style="color: #ffffff;">「安全に配慮した機械構造設計」</strong>と<strong style="color: #ffffff;">「安全を護るための機械システム開発」</strong>を目的として，衝突安全性能向上のため材料設計，スポーツのトレーニング支援システムの開発，インフラ構造のメンテナンスロボット開発，ゼロエミッション宇宙往還機（宇宙エレベータ）の開発など，社会の要求に基づいた機械システムの開発・設計を行っています．そのため，材料力学（機械系）の知識を基本として，非破壊検査やヘルスモニタリングのための計測技術（電気・電子系），データの可視化や自動化ロボットのシステム開発のためのプログラミング（情報系）の幅広い分野の知識・技術を用いています．
 </p>
+</div>
 
-<!-- 2. 研究室の成り立ち -->
+<!-- 2. 研究室の成り立ち（新規追加部分） -->
 <div style="background-color: rgba(30, 41, 59, 0.5); border: 1px solid #334155; padding: 24px; border-radius: 8px; margin: 40px 0;">
   <h3 style="color: #ffffff; font-size: 1.25rem; margin-top: 0; margin-bottom: 16px; display: flex; align-items: center;">
     <span style="display: inline-block; width: 4px; height: 1.25rem; background-color: #38bdf8; margin-right: 12px; border-radius: 2px;"></span>
@@ -41,7 +39,9 @@ share: false
 </div>
 
 <!-- 📷 自動フェードスライドショー -->
-<div style="position: relative; width: 100%; aspect-ratio: 16 / 9; max-height: 600px; overflow: hidden; margin-bottom: 40px; border-radius: 8px;">
+<div style="position: relative; width: 100%; aspect-ratio: 16 / 9; max-height: 600px; overflow: hidden;">
+  
+  <!-- 画像の指定（枚数に合わせて増減可能です） -->
   <img class="about-slide" src="/media/about_sports1.jpg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; object-position: top; opacity: 1; transition: opacity 1.5s ease-in-out;">
   <img class="about-slide" src="/media/about_sports2.jpg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; object-position: top; opacity: 0; transition: opacity 1.5s ease-in-out;">
   <img class="about-slide" src="/media/about_frp1.jpg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; object-position: top; opacity: 0; transition: opacity 1.5s ease-in-out;">
@@ -50,33 +50,31 @@ share: false
   <img class="about-slide" src="/media/about_wire2.jpg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; object-position: top; opacity: 0; transition: opacity 1.5s ease-in-out;">
   <img class="about-slide" src="/media/about_uele1.jpg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; object-position: top; opacity: 0; transition: opacity 1.5s ease-in-out;">
   <img class="about-slide" src="/media/about_uele2.jpg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; object-position: top; opacity: 0; transition: opacity 1.5s ease-in-out;">
+
 </div>
 
+<!-- スライドを動かすプログラム -->
 <script>
-(function() {
-  function initSlides() {
-    const slides = document.querySelectorAll('.about-slide');
-    if (slides.length <= 1) return;
-    let current = 0;
+document.addEventListener('DOMContentLoaded', function() {
+  const slides = document.querySelectorAll('.about-slide');
+  let current = 0;
+  if(slides.length > 1) {
     setInterval(() => {
-      slides[current].style.opacity = '0';
-      current = (current + 1) % slides.length;
-      slides[current].style.opacity = '1';
-    }, 4500);
+      slides[current].style.opacity = '0'; // 現在の画像を透明にする
+      current = (current + 1) % slides.length; // 次の画像の番号を計算
+      slides[current].style.opacity = '1'; // 次の画像を表示する
+    }, 4500); // 4500ミリ秒（4.5秒）ごとに切り替わります
   }
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initSlides);
-  } else {
-    initSlides();
-  }
-})();
+});
 </script>
+<!-- 📷 追加ここまで -->
 
 <!-- 3. 主な研究プロジェクト -->
 <hr style="border: none; border-top: 1px solid #334155; margin: 40px 0;">
 
 <h3 style="color: #ffffff; font-size: 1.3rem; margin-bottom: 20px;">主な研究プロジェクト</h3>
 
+<!-- 💡 ここを grid から flex の縦並び（column）に変更しました -->
 <div style="display: flex; flex-direction: column; gap: 20px; margin-bottom: 40px;">
 
   <!-- プロジェクト1：スポーツ器具 -->
@@ -116,5 +114,3 @@ share: false
   </a>
 
 </div>
-
-</div> <!-- 💡 ページ全体コンテナの閉じタグ -->
