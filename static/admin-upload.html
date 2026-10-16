@@ -49,4 +49,188 @@
       <!-- フォルダ名設定 -->
       <div>
         <label class="block text-sm font-medium text-slate-300 mb-1">フォルダ名</label>
-        <div class="flex gap-2
+        <div class="flex gap-2">
+          <!-- 日付部分は自動入力されて変更不可 -->
+          <input type="text" id="article-dir-date" class="input-field w-32 bg-slate-800 text-slate-400 cursor-not-allowed" readonly>
+          <span class="text-slate-400 self-center">-</span>
+          <!-- 任意の識別子を入力 -->
+          <input type="text" id="article-dirname" class="input-field flex-1 text-sm" placeholder="例: conference (英数字・ハイフンのみ)">
+        </div>
+        <p class="text-xs text-slate-500 mt-1">※ <code>content/news/【日付】-【任意の名前】/</code> として作成されます。</p>
+      </div>
+
+      <!-- 記事本文 -->
+      <div>
+        <label class="block text-sm font-medium text-slate-300 mb-1">記事本文 (B)</label>
+        <textarea id="article-body" class="input-field h-40 md:h-64 text-sm" placeholder="ここに本文を記述します。改行もそのまま反映されます。"></textarea>
+      </div>
+
+      <!-- 画像アップロード -->
+      <div>
+        <label class="block text-sm font-medium text-slate-300 mb-1">写真 / 画像 (任意) → <code>featured.jpg</code></label>
+        <input type="file" id="image-file" accept="image/jpeg, image/png, image/webp" class="input-field text-sm file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-sky-500 file:text-white hover:file:bg-sky-600">
+        <p class="text-xs text-slate-500 mt-1">※画像を選択した場合のみ、本文の最後に自動で <code>![Picture](featured.jpg)</code> が追加されます。</p>
+      </div>
+
+      <!-- ボタン -->
+      <button id="upload-btn" onclick="handleUpload()" class="w-full bg-sky-500 hover:bg-sky-600 text-white font-bold py-3 px-4 rounded transition-colors mt-4 text-sm md:text-base">
+        <span id="btn-text">作成してアップロード</span>
+        <span id="btn-loader" class="loader hidden ml-2"></span>
+      </button>
+
+      <!-- メッセージボックス -->
+      <div id="message-box" class="hidden mt-4 p-4 rounded text-sm break-words"></div>
+    </div>
+  </div>
+
+  <script>
+    const REPO_NAME = "ko727/cstpme-ohtsukalab.github.io";
+
+    window.onload = function() {
+      const today = new Date();
+      const yyyy = today.getFullYear();
+      const mm = String(today.getMonth() + 1).padStart(2, '0');
+      const dd = String(today.getDate()).padStart(2, '0');
+      const formattedDate = `${yyyy}-${mm}-${dd}`;
+      
+      document.getElementById('article-date').value = formattedDate;
+      document.getElementById('article-dir-date').value = formattedDate;
+    };
+
+    function updateDirName() {
+      const selectedDate = document.getElementById('article-date').value;
+      document.getElementById('article-dir-date').value = selectedDate;
+    }
+
+    function encodeBase64Unicode(str) {
+      return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g,
+        function toSolidBytes(match, p1) {
+          return String.fromCharCode('0x' + p1);
+      }));
+    }
+
+    function fileToBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+          const base64String = reader.result.replace(/^data:image\/[a-z]+;base64,/, "");
+          resolve(base64String);
+        };
+        reader.onerror = error => reject(error);
+      });
+    }
+
+    async function uploadToGitHubAPI(token, filePath, base64Content, commitMessage) {
+      const url = `https://api.github.com/repos/${REPO_NAME}/contents/${filePath}`;
+      const response = await fetch(url, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `token ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          message: commitMessage,
+          content: base64Content
+        })
+      });
+
+      if (!response.ok) {
+        const errData = await response.json();
+        throw new Error(`${filePath} の保存に失敗: ${errData.message}`);
+      }
+      return response.json();
+    }
+
+    async function handleUpload() {
+      const token = document.getElementById('github-token').value.trim();
+      const dateVal = document.getElementById('article-date').value;
+      const title = document.getElementById('article-title').value.trim();
+      const dirPrefix = document.getElementById('article-dir-date').value;
+      const dirSuffix = document.getElementById('article-dirname').value.trim();
+      const finalDirName = dirSuffix ? `${dirPrefix}-${dirSuffix}` : dirPrefix;
+      const bodyText = document.getElementById('article-body').value;
+      const imageInput = document.getElementById('image-file');
+      
+      const btn = document.getElementById('upload-btn');
+      const btnText = document.getElementById('btn-text');
+      const btnLoader = document.getElementById('btn-loader');
+      const msgBox = document.getElementById('message-box');
+
+      if (!token || !dateVal || !title || !bodyText) {
+        showMessage("エラー: トークン、タイトル、本文は必須項目です。", "error");
+        return;
+      }
+
+      btn.disabled = true;
+      btn.classList.replace('bg-sky-500', 'bg-slate-600');
+      btnText.innerText = "通信中...";
+      btnLoader.classList.remove('hidden');
+      msgBox.classList.add('hidden');
+
+      try {
+        const basePath = `content/news/${finalDirName}`;
+        let successMessage = "";
+        
+        // 変数 hasImage で画像が選択されているか判定
+        const hasImage = imageInput.files.length > 0;
+
+        let markdownContent = `---
+title: "${title}"
+date: ${dateVal}
+draft: false
+share: false
+
+image:
+  preview_only: true
+---
+
+${bodyText}`;
+
+        // 画像が選択されている場合のみ、末尾に追記する
+        if (hasImage) {
+          markdownContent += `\n\n![Picture](featured.jpg)`;
+        }
+
+        const mdBase64 = encodeBase64Unicode(markdownContent);
+        await uploadToGitHubAPI(token, `${basePath}/index.md`, mdBase64, `Add news article: ${title}`);
+        successMessage += `✅ 記事 (${basePath}/index.md) を作成しました。<br>`;
+
+        if (hasImage) {
+          const file = imageInput.files[0];
+          const imgBase64 = await fileToBase64(file);
+          await uploadToGitHubAPI(token, `${basePath}/featured.jpg`, imgBase64, `Add image for ${title}`);
+          successMessage += `✅ 画像 (${basePath}/featured.jpg) を作成しました。<br>`;
+        }
+
+        showMessage(successMessage + "<br><b>🎉 アップロード成功！約1〜2分後にサイトに反映されます。</b>", "success");
+        
+        document.getElementById('article-title').value = '';
+        document.getElementById('article-dirname').value = '';
+        document.getElementById('article-body').value = '';
+        imageInput.value = '';
+
+      } catch (error) {
+        showMessage("エラー発生: " + error.message, "error");
+      } finally {
+        btn.disabled = false;
+        btn.classList.replace('bg-slate-600', 'bg-sky-500');
+        btnText.innerText = "作成してアップロード";
+        btnLoader.classList.add('hidden');
+      }
+    }
+
+    function showMessage(msg, type) {
+      const msgBox = document.getElementById('message-box');
+      msgBox.classList.remove('hidden', 'bg-red-900/50', 'text-red-300', 'border-red-800', 'bg-emerald-900/50', 'text-emerald-300', 'border-emerald-800');
+      
+      if (type === "error") {
+        msgBox.classList.add('bg-red-900/50', 'text-red-300', 'border', 'border-red-800');
+      } else {
+        msgBox.classList.add('bg-emerald-900/50', 'text-emerald-300', 'border', 'border-emerald-800');
+      }
+      msgBox.innerHTML = msg;
+    }
+  </script>
+</body>
+</html>
