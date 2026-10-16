@@ -5,7 +5,6 @@ draft: false
 share: false
 
 image:
-  focal_point: "Smart"        # 画像の中心を自動調整
   preview_only: true
 ---
 
@@ -15,3 +14,5 @@ image:
 講座名：未来を開く夢の乗り物「宇宙エレベーター」
 
 学生が主体となって企画した講座で，参加者の小学生の皆さんは目を輝かせ，楽しそうに受講していました．
+
+![ふなっこ未来大学の様子](featured.jpg)
