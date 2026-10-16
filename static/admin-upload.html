@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hugo News Article Uploader</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background-color: #0f172a; color: #f8fafc; }
+    .input-field {
+      width: 100%; padding: 0.5rem; background-color: #1e293b; border: 1px solid #334155; 
+      border-radius: 0.375rem; color: #f8fafc; outline: none; transition: border-color 0.2s;
+    }
+    .input-field:focus { border-color: #38bdf8; }
+    .loader {
+      border: 3px solid rgba(255, 255, 255, 0.3); border-radius: 50%;
+      border-top: 3px solid #ffffff; width: 20px; height: 20px; animation: spin 1s linear infinite; display: inline-block; vertical-align: middle;
+    }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+  </style>
+</head>
+<body class="min-h-screen p-6 font-sans">
+  <div class="max-w-3xl mx-auto background-color: #1e293b p-8 rounded-lg shadow-xl border border-slate-700">
+    <h1 class="text-2xl font-bold mb-6 text-sky-400 border-b border-slate-600 pb-3">News 記事アップローダー</h1>
+    <p class="text-slate-400 text-sm mb-6">
+      Hugoのディレクトリ（<code>content/news/</code>）に記事フォルダを作成し、テキストを <code>index.md</code>、画像を <code>featured.jpg</code> としてGitHubへ直接アップロードします。
+    </p>
+
+    <div class="space-y-5">
+      <!-- 認証情報 -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-medium text-slate-300 mb-1">GitHub Personal Access Token</label>
+          <input type="password" id="github-token" class="input-field" placeholder="ghp_xxxxxxxxxxxx">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-slate-300 mb-1">リポジトリ (owner/repo)</label>
+          <input type="text" id="github-repo" class="input-field" placeholder="例: ko727/cstpme-ohtsukalab.github.io">
+        </div>
+      </div>
+
+      <!-- 記事情報 -->
+      <div>
+        <label class="block text-sm font-medium text-slate-300 mb-1">記事のフォルダ名 (英数字・ハイフン推奨)</label>
+        <input type="text" id="article-dirname" class="input-field" placeholder="例: 2026-10-16-update">
+        <p class="text-xs text-slate-500 mt-1">作成されるパス: <code>content/news/フォルダ名/</code></p>
+      </div>
+
+      <!-- Markdown入力 -->
+      <div>
+        <label class="block text-sm font-medium text-slate-300 mb-1">記事本文 (Markdown) → <code>index.md</code></label>
+        <textarea id="markdown-content" class="input-field h-64 font-mono text-sm" placeholder="---\ntitle: 記事のタイトル\ndate: 2026-10-16\ndraft: false\n---\n\nここに本文を記述します。"></textarea>
+      </div>
+
+      <!-- 画像アップロード -->
+      <div>
+        <label class="block text-sm font-medium text-slate-300 mb-1">アイキャッチ画像 (任意) → <code>featured.jpg</code></label>
+        <input type="file" id="image-file" accept="image/jpeg, image/png, image/webp" class="input-field text-sm file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-sky-500 file:text-white hover:file:bg-sky-600">
+      </div>
+
+      <!-- ボタン -->
+      <button id="upload-btn" onclick="handleUpload()" class="w-full bg-sky-500 hover:bg-sky-600 text-white font-bold py-3 px-4 rounded transition-colors mt-4">
+        <span id="btn-text">GitHubへアップロード</span>
+        <span id="btn-loader" class="loader hidden ml-2"></span>
+      </button>
+
+      <!-- メッセージボックス -->
+      <div id="message-box" class="hidden mt-4 p-4 rounded text-sm"></div>
+    </div>
+  </div>
+
+  <script>
+    // テキストをUTF-8対応でBase64エンコードする関数
+    function encodeBase64Unicode(str) {
+      return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g,
+        function toSolidBytes(match, p1) {
+          return String.fromCharCode('0x' + p1);
+      }));
+    }
+
+    // 画像ファイルをBase64文字列に変換する関数
+    function fileToBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+          // data:image/jpeg;base64, などのプレフィックスを取り除く
+          const base64String = reader.result.replace(/^data:image\/[a-z]+;base64,/, "");
+          resolve(base64String);
+        };
+        reader.onerror = error => reject(error);
+      });
+    }
+
+    // GitHub APIへファイルをコミットする関数
+    async function uploadToGitHubAPI(repo, token, filePath, base64Content, commitMessage) {
+      const url = `https://api.github.com/repos/${repo}/contents/${filePath}`;
+      const response = await fetch(url, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `token ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          message: commitMessage,
+          content: base64Content
+        })
+      });
+
+      if (!response.ok) {
+        const errData = await response.json();
+        throw new Error(`${filePath} のアップロードに失敗しました: ${errData.message}`);
+      }
+      return response.json();
+    }
+
+    // メインのアップロード処理
+    async function handleUpload() {
+      const token = document.getElementById('github-token').value.trim();
+      const repo = document.getElementById('github-repo').value.trim();
+      const dirName = document.getElementById('article-dirname').value.trim();
+      const markdown = document.getElementById('markdown-content').value;
+      const imageInput = document.getElementById('image-file');
+      
+      const btn = document.getElementById('upload-btn');
+      const btnText = document.getElementById('btn-text');
+      const btnLoader = document.getElementById('btn-loader');
+      const msgBox = document.getElementById('message-box');
+
+      // 入力チェック
+      if (!token || !repo || !dirName || !markdown) {
+        showMessage("エラー: 画像以外のすべての項目を入力してください。", "error");
+        return;
+      }
+
+      // 状態をローディングに変更
+      btn.disabled = true;
+      btn.classList.replace('bg-sky-500', 'bg-slate-600');
+      btnText.innerText = "アップロード中...";
+      btnLoader.classList.remove('hidden');
+      msgBox.classList.add('hidden');
+
+      try {
+        const basePath = `content/news/${dirName}`;
+        let successMessage = "";
+
+        // 1. Markdownファイルを index.md としてエンコードしてアップロード
+        const mdBase64 = encodeBase64Unicode(markdown);
+        await uploadToGitHubAPI(repo, token, `${basePath}/index.md`, mdBase64, `Add news article: ${dirName} (index.md)`);
+        successMessage += `✅ ${basePath}/index.md を作成しました。<br>`;
+
+        // 2. 画像が選択されている場合は featured.jpg としてアップロード
+        if (imageInput.files.length > 0) {
+          const file = imageInput.files[0];
+          const imgBase64 = await fileToBase64(file);
+          // ファイルの種類に関わらず featured.jpg として保存（Hugoの標準仕様）
+          await uploadToGitHubAPI(repo, token, `${basePath}/featured.jpg`, imgBase64, `Add featured image for ${dirName}`);
+          successMessage += `✅ ${basePath}/featured.jpg を作成しました。<br>`;
+        }
+
+        showMessage(successMessage + "<b>すべてのアップロードが完了しました！</b>", "success");
+        
+        // 成功したら入力欄をクリアする（トークンとリポジトリ以外）
+        document.getElementById('article-dirname').value = '';
+        document.getElementById('markdown-content').value = '';
+        imageInput.value = '';
+
+      } catch (error) {
+        showMessage("エラー発生: " + error.message, "error");
+      } finally {
+        // ボタン状態を元に戻す
+        btn.disabled = false;
+        btn.classList.replace('bg-slate-600', 'bg-sky-500');
+        btnText.innerText = "GitHubへアップロード";
+        btnLoader.classList.add('hidden');
+      }
+    }
+
+    // メッセージ表示用関数
+    function showMessage(msg, type) {
+      const msgBox = document.getElementById('message-box');
+      msgBox.classList.remove('hidden', 'bg-red-900/50', 'text-red-300', 'border-red-800', 'bg-emerald-900/50', 'text-emerald-300', 'border-emerald-800');
+      
+      if (type === "error") {
+        msgBox.classList.add('bg-red-900/50', 'text-red-300', 'border', 'border-red-800');
+      } else {
+        msgBox.classList.add('bg-emerald-900/50', 'text-emerald-300', 'border', 'border-emerald-800');
+      }
+      msgBox.innerHTML = msg;
+    }
+  </script>
+</body>
+</html>
