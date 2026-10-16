@@ -1,5 +1,5 @@
 ---
-title: "青木義男先生が日本大学名誉教授を授与されました"
+title: "青木義男先生が日本大学名誉教授を授与"
 date: 2026-09-01
 draft: false
 share: false

@@ -1,5 +1,5 @@
 ---
-title: "日本大学第一高等学校の文化祭に参加しました"
+title: "日本大学第一高等学校の文化祭に参加"
 date: 2025-09-28
 draft: false
 share: false

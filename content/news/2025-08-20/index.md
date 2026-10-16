@@ -1,5 +1,5 @@
 ---
-title: "「ふなっこ未来大学」を開催しました"
+title: "「ふなっこ未来大学2025」を開催"
 date: 2025-08-20
 draft: false
 share: false

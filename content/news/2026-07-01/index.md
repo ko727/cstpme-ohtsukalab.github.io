@@ -1,10 +1,12 @@
 ---
-title: "「Technical Journal of Advanced Mobility / 次世代移動体技術誌」に論文が掲載されました"
+title: "「Technical Journal of Advanced Mobility / 次世代移動体技術誌」に論文が掲載"
 date: 2026-07-01
 draft: false
 share: false
 ---
 
 一般社団法人 日本UAS産業振興協議会（JUIDA）が発行している協会誌「Technical Journal of Advanced Mobility / 次世代移動体技術誌」（Vol.7，No.7）にて，学術論文が掲載されました．
+
 題目：大型遊戯施設の遠隔検査への ドローン活用に関する実証実験
+
 https://doi.org/10.34590/tjam.7.7_82
