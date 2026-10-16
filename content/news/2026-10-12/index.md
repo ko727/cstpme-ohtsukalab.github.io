@@ -5,8 +5,7 @@ draft: false
 share: false
 
 image:
-  filename: "2026-10-12.jpg" # 同じフォルダに入れた画像ファイル名
-  focal_point: "Smart"        # 画像の中心を自動調整
+  preview_only: true
 ---
 
 2026年10月11日（日）に本学船橋キャンパスにて，第13回宇宙エレベーターロボット競技会 関東オープン（千葉会場）が開催されました．
@@ -14,3 +13,5 @@ image:
 このイベントでは共催として，大学および構造力学研究室が参画しています．
 
 ※宇宙エレベーターロボット競技会webサイト（https://space-elevator.tokyo/）
+
+![Picture](featured.jpg)

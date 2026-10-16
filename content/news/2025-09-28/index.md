@@ -5,8 +5,7 @@ draft: false
 share: false
 
 image:
-  filename: "https://ko727.github.io/cstpme-ohtsukalab.github.io/content/news/2025-09-28.jpg" # 同じフォルダに入れた画像ファイル名
-  focal_point: "Smart"        # 画像の中心を自動調整
+  preview_only: true
 ---
 
 2025年9月28日（日）に日本大学第一高等学校の文化祭にて日本大学理工学部のブースの1つに構造力学研究室で展示を行いました．
@@ -14,3 +13,5 @@ image:
 
 現在，日本大学第一中学高等学校の校長を務めております青木先生からのご紹介で参加させていただきました．
 これまでに高校の文化祭に展示させていただく機会は多くありませんでしたが，高校生の出し物の質がとても高く，驚かされることが多かったです．
+
+![Picture](featured.jpg)
