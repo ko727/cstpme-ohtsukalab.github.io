@@ -1,6 +1,6 @@
 ---
 title: "第13回宇宙エレベーターロボット競技会の開催協力"
-date: 2025-10-12
+date: 2026-10-12
 draft: false
 share: false
 
