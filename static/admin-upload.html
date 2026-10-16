@@ -28,13 +28,13 @@
     </p>
 
     <div class="space-y-5">
-      <!-- 認証情報 -->
+      <!-- 1. 認証情報 -->
       <div>
         <label class="block text-sm font-medium text-slate-300 mb-1">GitHub Token (ghp_...)</label>
         <input type="password" id="github-token" class="input-field" placeholder="ghp_xxxxxxxxxxxx">
       </div>
 
-      <!-- 記事情報（日付・タイトル） -->
+      <!-- 2. 日付・タイトル -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label class="block text-sm font-medium text-slate-300 mb-1">日付 (YYYY-MM-DD)</label>
@@ -46,39 +46,39 @@
         </div>
       </div>
 
-      <!-- フォルダ名設定 -->
+      <!-- 3. フォルダ名 -->
       <div>
         <label class="block text-sm font-medium text-slate-300 mb-1">フォルダ名</label>
-        <div class="flex gap-2">
-          <!-- 日付部分は自動入力されて変更不可 -->
-          <input type="text" id="article-dir-date" class="input-field w-32 bg-slate-800 text-slate-400 cursor-not-allowed" readonly>
-          <span class="text-slate-400 self-center">-</span>
-          <!-- 任意の識別子を入力 -->
-          <input type="text" id="article-dirname" class="input-field flex-1 text-sm" placeholder="例: conference (英数字・ハイフンのみ)">
+        <div class="flex items-center gap-2">
+          <!-- 日付部分は自動入力（読み取り専用） -->
+          <input type="text" id="article-dir-date" class="input-field w-36 bg-slate-800 text-slate-400 cursor-not-allowed" readonly>
+          <span class="text-slate-400 font-bold">-</span>
+          <!-- 任意の識別子 -->
+          <input type="text" id="article-dirname" class="input-field flex-1 text-sm" placeholder="任意 (例: conference)">
         </div>
-        <p class="text-xs text-slate-500 mt-1">※ <code>content/news/【日付】-【任意の名前】/</code> として作成されます。</p>
+        <p class="text-xs text-slate-500 mt-1">※作成先: <code>content/news/【日付】-【任意の名前】/</code> (空欄の場合は日付のみ)</p>
       </div>
 
-      <!-- 記事本文 -->
+      <!-- 4. 記事本文 -->
       <div>
         <label class="block text-sm font-medium text-slate-300 mb-1">記事本文 (B)</label>
-        <textarea id="article-body" class="input-field h-40 md:h-64 text-sm" placeholder="ここに本文を記述します。改行もそのまま反映されます。"></textarea>
+        <textarea id="article-body" class="input-field h-44 md:h-60 text-sm" placeholder="ここに本文を記述します。改行もそのまま反映されます。"></textarea>
       </div>
 
-      <!-- 画像アップロード -->
+      <!-- 5. 画像アップロード -->
       <div>
         <label class="block text-sm font-medium text-slate-300 mb-1">写真 / 画像 (任意) → <code>featured.jpg</code></label>
         <input type="file" id="image-file" accept="image/jpeg, image/png, image/webp" class="input-field text-sm file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-sky-500 file:text-white hover:file:bg-sky-600">
-        <p class="text-xs text-slate-500 mt-1">※画像を選択した場合のみ、本文の最後に自動で <code>![Picture](featured.jpg)</code> が追加されます。</p>
+        <p class="text-xs text-slate-500 mt-1">※画像を選択した場合のみ、記事末尾に <code>![Picture](featured.jpg)</code> が自動挿入されます。</p>
       </div>
 
-      <!-- ボタン -->
+      <!-- 6. アップロードボタン -->
       <button id="upload-btn" onclick="handleUpload()" class="w-full bg-sky-500 hover:bg-sky-600 text-white font-bold py-3 px-4 rounded transition-colors mt-4 text-sm md:text-base">
         <span id="btn-text">作成してアップロード</span>
         <span id="btn-loader" class="loader hidden ml-2"></span>
       </button>
 
-      <!-- メッセージボックス -->
+      <!-- 7. メッセージボックス -->
       <div id="message-box" class="hidden mt-4 p-4 rounded text-sm break-words"></div>
     </div>
   </div>
@@ -86,6 +86,7 @@
   <script>
     const REPO_NAME = "ko727/cstpme-ohtsukalab.github.io";
 
+    // 読み込み時に今日の日付をセット
     window.onload = function() {
       const today = new Date();
       const yyyy = today.getFullYear();
@@ -97,11 +98,13 @@
       document.getElementById('article-dir-date').value = formattedDate;
     };
 
+    // 日付変更時にフォルダ名の日付も連動
     function updateDirName() {
       const selectedDate = document.getElementById('article-date').value;
       document.getElementById('article-dir-date').value = selectedDate;
     }
 
+    // 日本語のUTF-8を正しくBase64エンコードする関数
     function encodeBase64Unicode(str) {
       return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g,
         function toSolidBytes(match, p1) {
@@ -109,6 +112,7 @@
       }));
     }
 
+    // ファイルオブジェクトをBase64文字列に変換する関数
     function fileToBase64(file) {
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -121,6 +125,7 @@
       });
     }
 
+    // GitHub APIへファイルを送信
     async function uploadToGitHubAPI(token, filePath, base64Content, commitMessage) {
       const url = `https://api.github.com/repos/${REPO_NAME}/contents/${filePath}`;
       const response = await fetch(url, {
@@ -142,6 +147,7 @@
       return response.json();
     }
 
+    // 送信処理
     async function handleUpload() {
       const token = document.getElementById('github-token').value.trim();
       const dateVal = document.getElementById('article-date').value;
@@ -171,10 +177,9 @@
       try {
         const basePath = `content/news/${finalDirName}`;
         let successMessage = "";
-        
-        // 変数 hasImage で画像が選択されているか判定
         const hasImage = imageInput.files.length > 0;
 
+        // Front Matter の構築
         let markdownContent = `---
 title: "${title}"
 date: ${dateVal}
@@ -187,15 +192,17 @@ image:
 
 ${bodyText}`;
 
-        // 画像が選択されている場合のみ、末尾に追記する
+        // 画像がある場合のみ末尾に画像タグを追加
         if (hasImage) {
           markdownContent += `\n\n![Picture](featured.jpg)`;
         }
 
+        // 1. index.md のアップロード
         const mdBase64 = encodeBase64Unicode(markdownContent);
         await uploadToGitHubAPI(token, `${basePath}/index.md`, mdBase64, `Add news article: ${title}`);
         successMessage += `✅ 記事 (${basePath}/index.md) を作成しました。<br>`;
 
+        // 2. featured.jpg のアップロード (画像が選択されている場合のみ)
         if (hasImage) {
           const file = imageInput.files[0];
           const imgBase64 = await fileToBase64(file);
@@ -205,6 +212,7 @@ ${bodyText}`;
 
         showMessage(successMessage + "<br><b>🎉 アップロード成功！約1〜2分後にサイトに反映されます。</b>", "success");
         
+        // 成功時の入力欄クリア (トークンは保持)
         document.getElementById('article-title').value = '';
         document.getElementById('article-dirname').value = '';
         document.getElementById('article-body').value = '';
