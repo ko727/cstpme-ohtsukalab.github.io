@@ -102,6 +102,7 @@ sections:
     content:
       title: "News Archive"
       subtitle: "過去のお知らせ・更新情報一覧"
+      count: 0
       filters:
         folders:
           - news
